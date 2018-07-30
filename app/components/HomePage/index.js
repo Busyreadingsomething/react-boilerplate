@@ -1,4 +1,5 @@
 import React from 'react';
+import Input from './Input';
 
 class Test extends React.Component {
   constructor() {
@@ -17,10 +18,11 @@ class Test extends React.Component {
     return (
       <div>
         <h2>ADD A STRING</h2>
-        <input
+        <Input
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
+          placeholder="Add a message"
         />
       </div>
     );
