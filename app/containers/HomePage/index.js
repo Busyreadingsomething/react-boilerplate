@@ -10,33 +10,22 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
+import { bool, string, func } from 'prop-types';
+
 import messages from './messages';
 import Input from './Input';
 import Button from '../../components/Button';
 import Wrapper from '../../components/Wrapper';
+import { makeSelectMessage, makeSelectSubmit } from './selectors';
+import { changeMessage, submitMessage } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
-export default class HomePage extends React.PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      value: '',
-      submit: false,
-    };
-  }
-
-  handleChange = e => {
-    const { value } = e.target.value;
-    this.setState(() => ({ value }));
-  };
-
-  handleSubmit = () => {
-    this.setState(state => ({ submit: !state.submit }));
-  };
-
+export class HomePage extends React.PureComponent {
   render() {
-    const { submit, value } = this.state;
+    const { handleChange, handleSubmit, value, submit } = this.props;
     return (
       <Wrapper>
         <h1>
@@ -44,18 +33,43 @@ export default class HomePage extends React.PureComponent {
         </h1>
         <Input
           active={!submit}
-          onChange={this.handleChange}
+          onChange={handleChange}
           placeholder="Add a message"
           type="text"
           value={value}
         />
-        <Button active={!submit} onClick={this.handleSubmit}>
+        <Button active={!submit} onClick={handleSubmit}>
           SUBMIT
         </Button>
-        <Button active={submit} onClick={this.handleSubmit}>
+        <Button active={submit} onClick={handleSubmit}>
           ADD ANOTHER
         </Button>
       </Wrapper>
     );
   }
 }
+
+HomePage.propTypes = {
+  handleChange: func.isRequired,
+  handleSubmit: func.isRequired,
+  submit: bool.isRequired,
+  value: string.isRequired,
+};
+
+const mapStateToProps = createSelector(
+  [makeSelectMessage(), makeSelectSubmit()],
+  (value, submit) => ({
+    value,
+    submit,
+  }),
+);
+
+const mapDispatchToProps = dispatch => ({
+  handleChange: e => dispatch(changeMessage(e.target.value)),
+  handleSubmit: () => dispatch(submitMessage()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomePage);

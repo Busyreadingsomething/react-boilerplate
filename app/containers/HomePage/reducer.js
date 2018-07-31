@@ -1,18 +1,23 @@
-import fromJS from 'immutable';
+import { fromJS } from 'immutable';
 
-import { CHANGE_MESSAGE } from './actionTypes';
+import { CHANGE_MESSAGE, SUBMIT_MESSAGE } from './actionTypes';
 
 export const initialState = fromJS({
   value: '',
+  submit: false,
 });
 
-const inputReducer = (state = initialState, action) => {
+const inputProviderReducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_MESSAGE:
-      return state.set('value', () => action.value);
+      return state.update('value', () => action.value);
+    case SUBMIT_MESSAGE:
+      return state
+        .update('submit', submit => !submit)
+        .update('value', () => '');
     default:
       return state;
   }
 };
 
-return inputReducer;
+export default inputProviderReducer;
