@@ -10,16 +10,23 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import messages from './mockData';
 
 /* eslint-disable react/prefer-stateless-function */
-export default class HomePage extends React.PureComponent {
+export default class MessageList extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      messages,
+    };
+  }
+
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <h2>Here is the messages</h2>
+        {this.state.messages.map(message => <p>{message}</p>)}
+      </div>
     );
   }
 }
