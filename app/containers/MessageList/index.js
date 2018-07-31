@@ -10,23 +10,28 @@
  */
 
 import React from 'react';
-import messages from './mockData';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
+import Wrapper from '../../components/Wrapper';
+import list from './mockData';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class MessageList extends React.Component {
   constructor() {
     super();
     this.state = {
-      messages,
+      list,
     };
   }
 
   render() {
     return (
-      <div>
-        <h2>Here is the messages</h2>
-        {this.state.messages.map(message => <p>{message}</p>)}
-      </div>
+      <Wrapper>
+        <h1>
+          <FormattedMessage {...messages.header} />
+        </h1>
+        {this.state.list.map(message => <p key={message}>{message}</p>)}
+      </Wrapper>
     );
   }
 }
