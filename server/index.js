@@ -12,11 +12,14 @@ const ngrok =
     ? require('ngrok')
     : false;
 const { resolve } = require('path');
+const routes = require('./routes');
+
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
-
+app.use(express.json());
+app.use('/message', routes);
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
@@ -33,7 +36,7 @@ app.listen(port, host, async err => {
   if (err) {
     return logger.error(err.message);
   }
-
+  console.log(port);
   // Connect to ngrok in dev mode
   if (ngrok) {
     let url;
