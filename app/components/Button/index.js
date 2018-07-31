@@ -1,12 +1,17 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-  height: 40px;
-  width: 80px;
-  padding: 5px 10px;
+  align-items: center;
   border: 2px solid #4286f4;
+  border-radius: 5px;
   font-size: 1.1rem;
-  display: ${({ active }) => (active ? 'block' : 'none')};
+  font-weight: bolder;
+  height: 40px;
+  justify-content: center;
+  margin: 10px;
+  padding: 5px 10px;
+  width: auto;
+  display: ${({ active }) => (active ? 'flex' : 'none')};
 `;
 
 export default Button;

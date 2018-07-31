@@ -14,6 +14,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Input from './Input';
 import Button from '../../components/Button';
+import Wrapper from '../../components/Wrapper';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -37,7 +38,7 @@ export default class HomePage extends React.PureComponent {
   render() {
     const { submit, value } = this.state;
     return (
-      <div>
+      <Wrapper>
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
@@ -54,7 +55,7 @@ export default class HomePage extends React.PureComponent {
         <Button active={submit} onClick={this.handleSubmit}>
           ADD ANOTHER
         </Button>
-      </div>
+      </Wrapper>
     );
   }
 }
