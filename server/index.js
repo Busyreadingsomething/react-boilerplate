@@ -13,6 +13,7 @@ const ngrok =
     : false;
 const { resolve } = require('path');
 const routes = require('./routes');
+require('./database');
 
 const app = express();
 
@@ -36,7 +37,6 @@ app.listen(port, host, async err => {
   if (err) {
     return logger.error(err.message);
   }
-  console.log(port);
   // Connect to ngrok in dev mode
   if (ngrok) {
     let url;
