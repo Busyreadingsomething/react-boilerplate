@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 import messages from './mockData';
-import { LOAD_MESSAGE, MESSAGE_SUCCESS, MESSAGE_FAIL } from './constants';
+import { LOAD_MESSAGES, MESSAGE_SUCCESS, MESSAGE_FAIL } from './constants';
 
 export const initialState = fromJS({
   messages,
@@ -12,15 +12,22 @@ export const initialState = fromJS({
 
 const listProviderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOAD_MESSAGE:
-      return state.set('loading', true).set('error', false);
+    case LOAD_MESSAGES:
+      return state
+        .set('loading', true)
+        .set('error', false)
+        .set('success', false);
     case MESSAGE_SUCCESS:
       return state
-        .set('messages', action.messages)
+        .set('messages', fromJS(action.messages))
         .set('loading', false)
-        .set('error', false);
+        .set('error', false)
+        .set('success', true);
     case MESSAGE_FAIL:
-      return state.set('loading', false).set('error', true);
+      return state
+        .set('loading', false)
+        .set('error', true)
+        .set('success', false);
     default:
       return state;
   }
