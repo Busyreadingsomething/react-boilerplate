@@ -10,15 +10,18 @@
  */
 
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
 import { bool, string, func } from 'prop-types';
+import injectReducer from 'utils/injectReducer';
 
 import messages from './messages';
 import Input from './Input';
 import Button from '../../components/Button';
 import Wrapper from '../../components/Wrapper';
+import reducer from './reducer';
 import { makeSelectMessage, makeSelectSubmit } from './selectors';
 import { changeMessage, submitMessage } from './actions';
 
@@ -69,7 +72,14 @@ const mapDispatchToProps = dispatch => ({
   handleSubmit: () => dispatch(submitMessage()),
 });
 
-export default connect(
+const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
+);
+
+const withReducer = injectReducer({ key: 'home', reducer });
+
+export default compose(
+  withReducer,
+  withConnect,
 )(HomePage);
