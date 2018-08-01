@@ -1,14 +1,18 @@
 const express = require('express');
+const db = require('./database/query');
+
 const routes = express.Router();
 
 routes.get('/', (req, res) => {
-  console.log('OKAY NOW', req.params);
-  res.send('ROUTED');
+  db.getList()
+    .then(data => res.send(data.rows))
+    .catch(() => res.sendStatus(500));
 });
 
 routes.post('/', (req, res) => {
-  console.log('POSTING', req.body);
-  res.send('POSTED');
+  db.postMessage(req.body)
+    .then(() => res.send('POSTED'))
+    .catch(() => res.sendStatus(500));
 });
 
 module.exports = routes;
