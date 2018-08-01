@@ -10,18 +10,31 @@
  */
 
 import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import injectReducer from 'utils/injectReducer';
+import { arrayOf, string, bool } from 'prop-types';
+
 import Wrapper from '../../components/Wrapper';
+import messages from './messages';
+import reducer from './reducer';
+import mock from './mockData';
 import fetch from './fetch';
-import list from './mockData';
+import {
+  makeSelectError,
+  makeSelectList,
+  makeSelectLoading,
+  makeSelectSuccess,
+} from './selector';
 
 /* eslint-disable react/prefer-stateless-function */
-export default class MessageList extends React.Component {
+export class MessageList extends React.Component {
   constructor() {
     super();
     this.state = {
-      list,
+      mock,
     };
   }
 
@@ -38,8 +51,44 @@ export default class MessageList extends React.Component {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        {this.state.list.map(message => <p key={message}>{message}</p>)}
+        {this.state.mock.map(message => <p key={message}>{message}</p>)}
       </Wrapper>
     );
   }
 }
+
+MessageList.propTypes = {
+  list: arrayOf(string).isRequired,
+  loading: bool.isRequired,
+  error: bool.isRequired,
+  success: bool.isRequired,
+};
+
+const mapStateToProps = createSelector(
+  [
+    makeSelectError(),
+    makeSelectList(),
+    makeSelectLoading(),
+    makeSelectSuccess(),
+  ],
+  (error, list, loading, success) => ({
+    error,
+    list,
+    loading,
+    success,
+  }),
+);
+
+const mapDispatchToProps = () => ({});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+const withReducer = injectReducer({ key: 'list', reducer });
+
+export default compose(
+  withReducer,
+  withConnect,
+)(MessageList);
