@@ -1,0 +1,10 @@
+DROP DATABASE IF EXISTS messages;
+CREATE DATABASE messages;
+
+\c messages;
+
+CREATE TABLE list(
+  ID SERIAL NOT NULL,
+  note VARCHAR(255) NOT NULL,
+  PRIMARY KEY(ID)
+);
