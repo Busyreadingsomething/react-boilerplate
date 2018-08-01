@@ -4,7 +4,7 @@ import { initialState } from './reducer';
 const selectList = state => state.get('list', initialState);
 
 const makeSelectList = () =>
-  createSelector(selectList, listState => listState.get('list'));
+  createSelector(selectList, listState => listState.get('messages'));
 
 const makeSelectLoading = () =>
   createSelector(selectList, loadingState => loadingState.get('loading'));
