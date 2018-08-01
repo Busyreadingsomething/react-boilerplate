@@ -14,14 +14,17 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
+import { arrayOf, bool, func, object } from 'prop-types';
 import injectReducer from 'utils/injectReducer';
-import { arrayOf, string, bool } from 'prop-types';
+import injectSaga from 'utils/injectSaga';
+import Wrapper from 'components/Wrapper';
+import Lists from 'components/Lists';
 
-import Wrapper from '../../components/Wrapper';
-import messages from './messages';
+import { loadMessages } from './actions';
+import head from './messages';
 import reducer from './reducer';
-import mock from './mockData';
-import fetch from './fetch';
+import saga from './sagas';
+import { toJS } from './toJS';
 import {
   makeSelectError,
   makeSelectList,
@@ -31,37 +34,28 @@ import {
 
 /* eslint-disable react/prefer-stateless-function */
 export class MessageList extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      mock,
-    };
-  }
-
   componentDidMount() {
-    console.log(fetch);
-    fetch()
-      .then(() => console.log('hit'))
-      .catch(e => console.log('ERROR:', e));
+    this.props.loadMessages();
   }
 
   render() {
     return (
       <Wrapper>
         <h1>
-          <FormattedMessage {...messages.header} />
+          <FormattedMessage {...head.header} />
         </h1>
-        {this.state.mock.map(message => <p key={message}>{message}</p>)}
+        <Lists list={this.props.messages} />
       </Wrapper>
     );
   }
 }
 
 MessageList.propTypes = {
-  list: arrayOf(string).isRequired,
+  messages: arrayOf(object).isRequired,
   loading: bool.isRequired,
   error: bool.isRequired,
   success: bool.isRequired,
+  loadMessages: func.isRequired,
 };
 
 const mapStateToProps = createSelector(
@@ -71,15 +65,17 @@ const mapStateToProps = createSelector(
     makeSelectLoading(),
     makeSelectSuccess(),
   ],
-  (error, list, loading, success) => ({
+  (error, messages, loading, success) => ({
     error,
-    list,
+    messages,
     loading,
     success,
   }),
 );
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  loadMessages: () => dispatch(loadMessages()),
+});
 
 const withConnect = connect(
   mapStateToProps,
@@ -87,8 +83,10 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'list', reducer });
+const withSaga = injectSaga({ key: 'list', saga });
 
 export default compose(
   withReducer,
+  withSaga,
   withConnect,
-)(MessageList);
+)(toJS(MessageList));
