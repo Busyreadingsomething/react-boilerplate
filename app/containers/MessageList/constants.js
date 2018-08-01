@@ -1,0 +1,3 @@
+export const LOAD_MESSAGES = 'LOAD_MESSAGES';
+export const MESSAGE_SUCCESS = 'MESSAGE_REQUEST';
+export const MESSAGE_FAIL = 'MESSAGE_FAIL';
