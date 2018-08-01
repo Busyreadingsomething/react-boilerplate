@@ -13,6 +13,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Wrapper from '../../components/Wrapper';
+import fetch from './fetch';
 import list from './mockData';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -22,6 +23,13 @@ export default class MessageList extends React.Component {
     this.state = {
       list,
     };
+  }
+
+  componentDidMount() {
+    console.log(fetch);
+    fetch()
+      .then(() => console.log('hit'))
+      .catch(e => console.log('ERROR:', e));
   }
 
   render() {
