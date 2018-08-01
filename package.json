@@ -94,12 +94,14 @@
   "dllPlugin": {
     "path": "node_modules/react-boilerplate-dlls",
     "exclude": [
+      "axios",
       "chalk",
       "compression",
       "cross-env",
       "express",
       "ip",
       "minimist",
+      "pg",
       "sanitize.css"
     ],
     "include": [
@@ -144,6 +146,7 @@
     ]
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "6.26.0",
     "chalk": "^2.4.1",
     "compression": "1.7.2",
@@ -158,7 +161,7 @@
     "ip": "1.1.5",
     "lodash": "4.17.10",
     "minimist": "1.2.0",
-    "pg": "7.4.3",
+    "pg": "^7.4.3",
     "prop-types": "15.6.1",
     "react": "16.4.1",
     "react-dom": "16.4.1",
