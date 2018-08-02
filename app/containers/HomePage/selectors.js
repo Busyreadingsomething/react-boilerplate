@@ -1,12 +1,24 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-const selectInput = state => state.get('input', initialState);
+const selectInput = state => state.get('home', initialState);
 
 const makeSelectMessage = () =>
   createSelector(selectInput, messageState => messageState.get('value'));
 
-const makeSelectSubmit = () =>
-  createSelector(selectInput, messageState => messageState.get('submit'));
+const makeSelectLoading = () =>
+  createSelector(selectInput, messageState => messageState.get('loading'));
 
-export { selectInput, makeSelectMessage, makeSelectSubmit };
+const makeSelectSuccess = () =>
+  createSelector(selectInput, messageState => messageState.get('success'));
+
+const makeSelectError = () =>
+  createSelector(selectInput, messageState => messageState.get('error'));
+
+export {
+  selectInput,
+  makeSelectMessage,
+  makeSelectLoading,
+  makeSelectSuccess,
+  makeSelectError,
+};
