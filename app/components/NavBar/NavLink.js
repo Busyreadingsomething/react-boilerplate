@@ -10,7 +10,7 @@ const NavLink = styled(Link)`
   font-size: 1.1rem;
   font-weight: bold;
   margin: 1em;
-  padding: 0.25em 2em;
+  padding: 0.3em 1.2em;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   &:hover {

@@ -1,17 +1,18 @@
 import React from 'react';
-import { object } from 'prop-types';
+import { arrayOf, bool, object } from 'prop-types';
 
 import { ListWrapper } from './ListWrapper';
 import Item from '../Item';
 
-const List = ({ list }) => (
-  <ListWrapper>
+const List = ({ active, list }) => (
+  <ListWrapper active={active}>
     {list.map(item => <Item key={item.id} note={item.note} />)}
   </ListWrapper>
 );
 
 List.propTypes = {
-  list: object.isRequired,
+  active: bool.isRequired,
+  list: arrayOf(object).isRequired,
 };
 
 export default List;

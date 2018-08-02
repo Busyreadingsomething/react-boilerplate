@@ -10,7 +10,7 @@ const Button = styled.button`
   height: 40px;
   justify-content: center;
   margin: 10px;
-  padding: 5px 10px;
+  padding: 0.3em 1.2em;
   transition: all 0.2s ease-in-out;
   width: auto;
   &:hover {
