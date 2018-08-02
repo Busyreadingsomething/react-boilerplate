@@ -1,10 +1,9 @@
 import { fromJS } from 'immutable';
 
-import messages from './mockData';
 import { LOAD_MESSAGES, MESSAGE_SUCCESS, MESSAGE_FAIL } from './constants';
 
 export const initialState = fromJS({
-  messages,
+  messages: [],
   loading: false,
   error: false,
   success: false,
