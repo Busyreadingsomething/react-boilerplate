@@ -39,12 +39,13 @@ export class MessageList extends React.Component {
   }
 
   render() {
+    const { success, messages } = this.props;
     return (
       <Wrapper>
         <h1>
           <FormattedMessage {...head.header} />
         </h1>
-        <Lists list={this.props.messages} />
+        <Lists active={success} list={messages} />
       </Wrapper>
     );
   }
@@ -58,7 +59,7 @@ MessageList.propTypes = {
   loadMessages: func.isRequired,
 };
 
-const mapStateToProps = createSelector(
+export const mapStateToProps = createSelector(
   [
     makeSelectError(),
     makeSelectList(),
@@ -73,7 +74,7 @@ const mapStateToProps = createSelector(
   }),
 );
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   loadMessages: () => dispatch(loadMessages()),
 });
 

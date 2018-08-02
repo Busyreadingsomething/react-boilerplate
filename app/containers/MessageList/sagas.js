@@ -3,11 +3,10 @@ import fetch from './fetch';
 import { LOAD_MESSAGES } from './constants';
 import { messageSuccess, messageFail } from './actions';
 
-function* workerGet() {
+export function* workerGet() {
+  const response = yield call(fetch);
   try {
-    const response = yield call(fetch);
     const messages = response.data;
-
     yield put(messageSuccess(messages));
   } catch (error) {
     yield put(messageFail());
