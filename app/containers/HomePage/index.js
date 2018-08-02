@@ -16,36 +16,54 @@ import { createSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
 import { bool, string, func } from 'prop-types';
 import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import Button from 'components/Button';
+import Wrapper from 'components/Wrapper';
+import Loading from 'components/Loading';
 
 import messages from './messages';
 import Input from './Input';
-import Button from '../../components/Button';
-import Wrapper from '../../components/Wrapper';
 import reducer from './reducer';
-import { makeSelectMessage, makeSelectSubmit } from './selectors';
-import { changeMessage, submitMessage } from './actions';
+import saga from './sagas';
+import {
+  makeSelectMessage,
+  makeSelectLoading,
+  makeSelectSuccess,
+  makeSelectError,
+} from './selectors';
+import { changeMessage, submitMessage, reset } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.PureComponent {
   render() {
-    const { handleChange, handleSubmit, value, submit } = this.props;
+    const {
+      handleChange,
+      handleSubmit,
+      handleReset,
+      value,
+      success,
+      error,
+      loading,
+    } = this.props;
+    const ready = !success && !error;
     return (
       <Wrapper>
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
+        <Loading active={loading}>Loading...</Loading>
         <Input
-          active={!submit}
+          active={ready}
           onChange={handleChange}
           placeholder="Add a message"
           type="text"
           value={value}
         />
-        <Button active={!submit} onClick={handleSubmit}>
+        <Button active={!success && !error} onClick={handleSubmit}>
           SUBMIT
         </Button>
-        <Button active={submit} onClick={handleSubmit}>
-          ADD ANOTHER
+        <Button active={success || error} onClick={handleReset}>
+          {success ? 'ADD ANOTHER' : 'TRY AGAIN'}
         </Button>
       </Wrapper>
     );
@@ -55,21 +73,32 @@ export class HomePage extends React.PureComponent {
 HomePage.propTypes = {
   handleChange: func.isRequired,
   handleSubmit: func.isRequired,
-  submit: bool.isRequired,
+  handleReset: func.isRequired,
+  loading: bool.isRequired,
+  error: bool.isRequired,
+  success: bool.isRequired,
   value: string.isRequired,
 };
 
 const mapStateToProps = createSelector(
-  [makeSelectMessage(), makeSelectSubmit()],
-  (value, submit) => ({
+  [
+    makeSelectMessage(),
+    makeSelectLoading(),
+    makeSelectSuccess(),
+    makeSelectError(),
+  ],
+  (value, loading, success, error) => ({
     value,
-    submit,
+    loading,
+    success,
+    error,
   }),
 );
 
 const mapDispatchToProps = dispatch => ({
   handleChange: e => dispatch(changeMessage(e.target.value)),
   handleSubmit: () => dispatch(submitMessage()),
+  handleReset: () => dispatch(reset()),
 });
 
 const withConnect = connect(
@@ -78,8 +107,10 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'home', reducer });
+const withSaga = injectSaga({ key: 'home', saga });
 
 export default compose(
   withReducer,
+  withSaga,
   withConnect,
 )(HomePage);
