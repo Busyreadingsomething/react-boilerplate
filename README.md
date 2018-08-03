@@ -98,15 +98,12 @@ There’s also a <a href="https://vimeo.com/168648012">fantastic video</a> on ho
 
 <sub><i>Keywords: React.js, Redux, Hot Reloading, ESNext, Babel, react-router, Offline First, ServiceWorker, `styled-components`, redux-saga, FontFaceObserver</i></sub>
 
-## Quick start
+## Quick start (UPDATED FOR THIS FORK)
 
 1.  Make sure that you have Node v8 or above installed.
-2.  Clone this repo using `git clone --depth=1 https://github.com/react-boilerplate/react-boilerplate.git`
-3.  Move to the appropriate directory: `cd react-boilerplate`.<br />
-4.  Run `npm run setup` in order to install dependencies and clean the git repo.<br />
-    _We auto-detect `yarn` for installing packages by default, if you wish to force `npm` usage do: `USE_YARN=false npm run setup`_<br />
-    _At this point you can run `npm start` to see the example app at `http://localhost:3000`._
-5.  Run `npm run clean` to delete the example app.
+2.  Make sure that you have PostgreSQL 10.2 installed.
+3.  Run ``npm run database`` => this will build the database and the associated table.
+4.  Run ``npm start`` to started the service => This will start the server, connect to the database, and create the bundle.
 
 Now you're ready to rumble!
 
