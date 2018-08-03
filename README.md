@@ -103,7 +103,7 @@ There’s also a <a href="https://vimeo.com/168648012">fantastic video</a> on ho
 1.  Make sure that you have Node v8 or above installed.
 2.  Make sure that you have PostgreSQL 10.2 installed.
 3.  Run ``npm run database`` => this will build the database and the associated table.
-4.  Run ``npm start`` to started the service => This will start the server, connect to the database, and create the bundle.
+4.  Run ``npm start`` to start the service => This will start the server, connect to the database, and create the bundle.
 
 Now you're ready to rumble!
 
