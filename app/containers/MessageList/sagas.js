@@ -4,10 +4,9 @@ import { LOAD_MESSAGES } from './constants';
 import { messageSuccess, messageFail } from './actions';
 
 export function* workerGet() {
-  const response = yield call(fetch);
   try {
-    const messages = response.data;
-    yield put(messageSuccess(messages));
+    const response = yield call(fetch);
+    yield put(messageSuccess(response.data));
   } catch (error) {
     yield put(messageFail());
   }
